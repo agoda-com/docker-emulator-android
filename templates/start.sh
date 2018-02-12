@@ -36,8 +36,8 @@ x11vnc -display :1 -nopw -forever &
 # qemu references bios by relative path
 cd /opt/android-sdk-linux/emulator
 
-tar -xvf /opt/android-sdk-linux/system-images/{{ .Env.PLATFORM }}/google_apis/x86/userdata.img.tar.gz --directory /
-tar -xvf /opt/android-sdk-linux/system-images/{{ .Env.PLATFORM }}/google_apis/x86/system.img.tar.gz --directory /
+tar -xvf /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img.tar.gz --directory /
+tar -xvf /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img.tar.gz --directory /
 
 CONFIG="/root/.android/avd/x86.avd/config.ini"
 CONFIGTMP=${CONFIG}.tmp
