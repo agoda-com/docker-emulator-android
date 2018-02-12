@@ -1,0 +1,17 @@
+sudo: required
+services:
+  - docker
+
+before_script:
+- make lint
+script:
+- make build
+
+before_deploy:
+- make login
+- make tag
+deploy:
+  provider: script
+  script: make push
+  on:
+    branch: master
