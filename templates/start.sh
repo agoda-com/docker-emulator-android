@@ -2,6 +2,7 @@
 console_port=$CONSOLE_PORT
 adb_port=$ADB_PORT
 adb_server_port=$ADB_SERVER_PORT
+emulator_opts=$EMULATOR_OPTS
 
 if [ -z "$console_port" ]
 then
@@ -14,6 +15,10 @@ fi
 if [ -z "$adb_server_port" ]
 then
   adb_server_port="5037"
+fi
+if [ -z "$emulator_opts" ]
+then
+  emulator_opts="-screen multi-touch -no-boot-anim -noaudio -nojni -wipe-data -netfast -verbose -camera-back none -camera-front none -skip-adb-auth"
 fi
 
 # Detect ip and forward ADB ports outside to outside interface
@@ -55,4 +60,4 @@ then
   done
 fi
 
-LIBGL_DEBUG=verbose ./qemu/linux-x86_64/qemu-system-i386 -avd x86 -screen multi-touch -no-boot-anim -noaudio -nojni -wipe-data -netfast -verbose -camera-back none -camera-front none -skip-adb-auth -ports $console_port,$adb_port $EMULATOR_OPTS -qemu $QEMU_OPTS
+LIBGL_DEBUG=verbose ./qemu/linux-x86_64/qemu-system-i386 -avd x86 -ports $console_port,$adb_port $emulator_opts -qemu $QEMU_OPTS
