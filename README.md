@@ -20,14 +20,14 @@ docker-emulator-android is one of the components of [android-farm](https://githu
 # Usage
 For example to run default emulator options with Marshmallow (API 23):
 ```console
-$ docker run --privileged -v /dev/kvm:/dev/kvm agoda-com/docker-emulator-android-23:latest
+$ docker run --rm --privileged -e ANDROID_ARCH="x86" -v /dev/kvm:/dev/kvm agoda-com/docker-emulator-android-23:latest
 $ adb connect VIP:5555
 ```
 
 If you want to start different configuration of device, for example a 7 inch tablet, you need to override `config.ini` variables:
 
 ```console
-$ docker run --privileged -e ANDROID_CONFIG="skin.name=600x1024;hw.lcd.density=160;hw.lcd.height=600;hw.lcd.width=1024;hw.device.name=7in WSVGA (Tablet);avd.ini.displayname=7  WSVGA (Tablet) API 23;" -v /dev/kvm:/dev/kvm agoda-com/docker-emulator-android-23:latest
+$ docker run --rm --privileged -e ANDROID_ARCH="x86" -e ANDROID_CONFIG="skin.name=600x1024;hw.lcd.density=160;hw.lcd.height=600;hw.lcd.width=1024;hw.device.name=7in WSVGA (Tablet);avd.ini.displayname=7  WSVGA (Tablet) API 23;" -v /dev/kvm:/dev/kvm agoda-com/docker-emulator-android-23:latest
 ```
 
 For all the options available please check the [official documentation](https://developer.android.com/studio/run/emulator-commandline.html)
