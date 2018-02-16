@@ -1,7 +1,3 @@
-[![Build Status](https://travis-ci.org/agoda-com/docker-emulator-android.svg?branch=master)](https://travis-ci.org/agoda-com/docker-emulator-android)
-[![Docker Stars](https://img.shields.io/docker/stars/agoda-com/docker-emulator-android.svg)]()
-[![Docker Pulls](https://img.shields.io/docker/pulls/agoda-com/docker-emulator-android.svg)]()
-
 # docker-emulator-android
 docker-emulator-android is one of the components of [android-farm](https://github.com/agoda-com/android-farm). It runs android emulator with hardware acceleration in a container.
 
@@ -31,3 +27,9 @@ $ docker run --rm --privileged -e ANDROID_ARCH="x86" -e ANDROID_CONFIG="skin.nam
 ```
 
 For all the options available please check the [official documentation](https://developer.android.com/studio/run/emulator-commandline.html)
+
+# License
+
+docker-emulator-android is open source and available under the [Apache License, Version 2.0](LICENSE).
+
+Android SDK components are available under the [Android Software Development Kit License](https://developer.android.com/studio/terms.html)
