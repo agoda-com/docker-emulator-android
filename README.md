@@ -28,6 +28,14 @@ $ docker run --rm --privileged -e ANDROID_ARCH="x86" -e ANDROID_CONFIG="skin.nam
 
 For all the options available please check the [official documentation](https://developer.android.com/studio/run/emulator-commandline.html)
 
+# Building
+
+```console
+$ export DOCKER_USER=user
+$ export DOCKER_PASS=password
+$ make PROXY=docker-registry-url/ build tag login push
+```
+
 # License
 
 docker-emulator-android is open source and available under the [Apache License, Version 2.0](LICENSE).
