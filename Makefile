@@ -4,10 +4,10 @@ VERSIONS = android-16 android-17 android-18 android-19 android-21 android-22 and
 generate:
 	for version in $(VERSIONS); do \
 		mkdir -p ./build/$$version ; \
-		sed "s/{{ platform }}/$$version/" templates/Dockerfile > build/$$version/Dockerfile ; \
-		sed "s/{{ platform }}/$$version/" templates/config.ini > build/$$version/config.ini ; \
-		sed "s/{{ platform }}/$$version/" templates/start.sh > build/$$version/start.sh ; \
-		sed "s/{{ platform }}/$$version/" templates/Makefile > build/$$version/Makefile ; \
+		sed "s/{{ platform }}/$$version/g" templates/Dockerfile > build/$$version/Dockerfile ; \
+		sed "s/{{ platform }}/$$version/g" templates/config.ini > build/$$version/config.ini ; \
+		sed "s/{{ platform }}/$$version/g" templates/start.sh > build/$$version/start.sh ; \
+		sed "s/{{ platform }}/$$version/g" templates/Makefile > build/$$version/Makefile ; \
 		cp base/* ./build/$$version ; \
 	done
 
