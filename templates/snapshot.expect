@@ -1,0 +1,12 @@
+#!/usr/bin/expect -f
+set timeout -1
+set TOKEN [lindex $argv 0];
+spawn telnet localhost 5554
+expect "OK"
+send -- "auth $TOKEN\r"
+expect "OK"
+send -- "avd snapshot del default_boot\r"
+expect "OK"
+send -- "avd snapshot save default\r"
+expect "OK"
+send "exit\r"

@@ -18,7 +18,7 @@ then
 fi
 if [ -z "$emulator_opts" ]
 then
-  emulator_opts="-screen multi-touch -no-boot-anim -noaudio -nojni -wipe-data -netfast -verbose -camera-back none -camera-front none -skip-adb-auth"
+  emulator_opts="-screen multi-touch -no-boot-anim -noaudio -nojni -netfast -verbose -camera-back none -camera-front none -skip-adb-auth -snapshot default -no-snapshot-save"
 fi
 
 # Detect ip and forward ADB ports outside to outside interface
@@ -27,22 +27,29 @@ redir --laddr=$ip --lport=$adb_server_port --caddr=127.0.0.1 --cport=$adb_server
 redir --laddr=$ip --lport=$console_port --caddr=127.0.0.1 --cport=$console_port &
 redir --laddr=$ip --lport=$adb_port --caddr=127.0.0.1 --cport=$adb_port &
 
-# Moving adb binary away so that stopping adb server with delay will release the emulator and will make it available for external connections
-mv /opt/android-sdk-linux/platform-tools/adb /opt/android-sdk-linux/platform-tools/_adb
-sleep 30 && _adb kill-server &
+function clean_up {
+    echo "Cleaning up"
+    rm /tmp/.X1-lock
 
+    kill $XVFB_PID
+    kill $FLUXBOX_PID
+    kill $VNC_PID
+    exit
+}
+
+trap clean_up SIGHUP SIGINT SIGTERM
 export DISPLAY=:1
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/android-sdk-linux/emulator/lib64/qt/lib:/opt/android-sdk-linux/emulator/lib64/libstdc++:/opt/android-sdk-linux/emulator/lib64:/opt/android-sdk-linux/emulator/lib64/gles_swiftshader
 Xvfb :1 +extension GLX +extension RANDR +extension RENDER +extension XFIXES -screen 0 1024x768x24 &
-fluxbox -display ":1.0" &
-x11vnc -display :1 -nopw -forever &
+XVFB_PID=$!
+sleep 1 && fluxbox -display ":1.0" &
+FLUXBOX_PID=$!
+sleep 2 && x11vnc -display :1 -nopw -forever &
+VNC_PID=$!
 
 # Set up and run emulator
 # qemu references bios by relative path
 cd /opt/android-sdk-linux/emulator
-
-tar -xvf /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img.tar.gz --directory /
-tar -xvf /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img.tar.gz --directory /
 
 CONFIG="/root/.android/avd/x86.avd/config.ini"
 CONFIGTMP=${CONFIG}.tmp
@@ -59,5 +66,7 @@ then
     echo ${OPT} >> ${CONFIG}
   done
 fi
+
+echo "emulator_opts: $emulator_opts"
 
 LIBGL_DEBUG=verbose ./qemu/linux-x86_64/qemu-system-i386 -avd x86 -ports $console_port,$adb_port $emulator_opts -qemu $QEMU_OPTS
