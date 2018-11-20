@@ -24,7 +24,7 @@ build:
 		-t $(LATEST_TAG) $(ROOT_DIR)
 
 snapshot:
-	bash $(ROOT_DIR)/take_snapshot.sh
+	bash $(ROOT_DIR)/take_snapshot.sh $(LATEST_TAG) $(SNAPSHOT_LATEST_TAG)
 
 lint:
 	docker run -it --rm -v "$(ROOT_DIR)/Dockerfile:/Dockerfile:ro" redcoolbeans/dockerlint
