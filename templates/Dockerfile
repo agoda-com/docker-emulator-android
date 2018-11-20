@@ -29,7 +29,7 @@ RUN dpkg --add-architecture i386 && \
     rm /tmp/android-sdk-linux.zip && \
     # Customized steps per specific platform
     yes | sdkmanager --no_https --licenses && \
-    sdkmanager emulator tools platform-tools "platforms;{{ platform }}" "system-images;{{ platform }};google_apis;x86" --verbose && \
+    sdkmanager emulator tools platform-tools "platforms;{{ platform }}" "system-images;{{ platform }};google_apis;x86" --verbose | uniq && \
     echo no | avdmanager create avd -n "x86" --package "system-images;{{ platform }};google_apis;x86" --tag google_apis && \
     # Unfilter devices (now local because CI downloads from github are unstable)
     # curl -o /root/.android/adb_usb.ini https://raw.githubusercontent.com/apkudo/adbusbini/master/adb_usb.ini && \
