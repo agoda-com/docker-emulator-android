@@ -27,6 +27,11 @@ lint: generate
 		$(MAKE) -C build/$$version lint; \
 	done
 
+snapshot: generate build
+	for version in $(VERSIONS); do \
+		$(MAKE) -C build/$$version snapshot; \
+	done
+
 tag: generate
 	for version in $(VERSIONS); do \
 		$(MAKE) -C build/$$version tag; \

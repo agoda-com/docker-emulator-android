@@ -10,5 +10,5 @@ docker cp snapshot.sh emulator:/snapshot.sh
 docker cp snapshot.expect emulator:/snapshot.expect
 docker exec -t emulator bash -c "bash /snapshot.sh; exit"
 echo "Creating new image"
-docker commit -m "Snapshot!" --change "CMD [\"/start.sh\"]" emulator agoda/docker-emulator-{{ platform }}-snapshot
+docker commit -m "Snapshot!" --change "CMD [\"/start.sh\"]" emulator agoda/docker-emulator-snapshot-{{ platform }}
 docker rm -f emulator
