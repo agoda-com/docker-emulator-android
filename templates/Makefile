@@ -39,3 +39,6 @@ push:
 	docker push $(GIT_TAG)
 	docker push $(BUILD_TAG)
 	docker push $(LATEST_TAG)
+	docker push $(SNAPSHOT_GIT_TAG)
+	docker push $(SNAPSHOT_BUILD_TAG)
+	docker push $(SNAPSHOT_LATEST_TAG)
