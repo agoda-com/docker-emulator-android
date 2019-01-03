@@ -21,7 +21,7 @@ Xvfb :1 +extension GLX +extension RANDR +extension RENDER +extension XFIXES -scr
 XVFB_PID=$!
 
 cd /opt/android-sdk-linux/emulator
-LIBGL_DEBUG=verbose ./qemu/linux-x86_64/qemu-system-i386 -avd x86 -snapshot default -no-snapshot-save &
+LIBGL_DEBUG=verbose ./qemu/linux-x86_64/qemu-system-x86_64 -avd x86 -snapshot default -no-snapshot-save &
 EMULATOR_PID=$!
 
 adb wait-for-device
