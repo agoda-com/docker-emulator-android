@@ -33,7 +33,7 @@ For all the options available please check the [official documentation](https://
 ```console
 $ export DOCKER_USER=user
 $ export DOCKER_PASS=password
-$ make PROXY=docker-registry-url/ build tag login push
+$ make PROXY=docker-registry-url/ build tag login push # eg PROXY=registry.hub.docker.com
 ```
 
 # License
