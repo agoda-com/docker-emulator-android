@@ -40,7 +40,6 @@ RUN dpkg --add-architecture i386 && \
     qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 && \
     mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img && \
     qemu-img resize /root/.android/avd/x86.avd/userdata.img 2G && \
-    e2fsck -fy /root/.android/avd/x86.avd/userdata.img && \
     resize2fs /root/.android/avd/x86.avd/userdata.img && \
     qemu-img convert -O qcow2 -c /root/.android/avd/x86.avd/userdata.img /root/.android/avd/x86.avd/userdata.qcow2 && \
     mv /root/.android/avd/x86.avd/userdata.qcow2 /root/.android/avd/x86.avd/userdata.img && \
