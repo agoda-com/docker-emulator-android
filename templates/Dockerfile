@@ -20,7 +20,9 @@ RUN dpkg --add-architecture i386 && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq software-properties-common libstdc++6:i386 zlib1g:i386 libncurses5:i386 \
                         locales ca-certificates apt-transport-https curl unzip redir iproute2 \
-                        openjdk-8-jdk xvfb x11vnc fluxbox nano libpulse0 telnet expect xorg \
+                        openjdk-8-jdk xvfb x11vnc fluxbox nano libpulse0 telnet expect \
+                        libasound2 dbus expat libx11-6 libxcb-composite0 libxcomposite1 libxcursor1 \
+                        libxdamage1 libxfixes3 libgl1 libnspr4 libnss3 xorg \
                         --no-install-recommends && \
     locale-gen en_US.UTF-8 && \
     # Install Android SDK
