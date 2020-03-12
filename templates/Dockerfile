@@ -19,11 +19,13 @@ RUN dpkg --add-architecture i386 && \
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq software-properties-common libstdc++6:i386 zlib1g:i386 libncurses5:i386 \
-                        locales ca-certificates apt-transport-https curl unzip redir iproute2 \
-                        openjdk-8-jdk xvfb x11vnc fluxbox nano libpulse0 telnet expect \
-                        libasound2 dbus expat libx11-6 libxcb-composite0 libxcomposite1 libxcursor1 \
-                        libxdamage1 libxfixes3 libgl1 libnspr4 libnss3 xorg \
-                        --no-install-recommends && \
+        locales ca-certificates apt-transport-https curl unzip redir iproute2 \
+        openjdk-8-jdk xvfb x11vnc fluxbox nano telnet expect \
+        libc6 libdbus-1-3 libfontconfig1 libgcc1 \
+        libpulse0 libtinfo5 libx11-6 libxcb1 libxdamage1 \
+        libnss3 libxcomposite1 libxcursor1 libxi6 \
+        libxext6 libxfixes3 zlib1g libgl1 pulseaudio socat \
+        --no-install-recommends && \
     locale-gen en_US.UTF-8 && \
     # Install Android SDK
     curl -L $LINK_ANDROID_SDK > /tmp/android-sdk-linux.zip && \
