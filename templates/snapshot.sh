@@ -21,7 +21,7 @@ Xvfb :1 +extension GLX +extension RANDR +extension RENDER +extension XFIXES -scr
 XVFB_PID=$!
 
 cd /opt/android-sdk-linux/emulator
-LIBGL_DEBUG=verbose ./qemu/linux-x86_64/qemu-system-x86_64 -avd x86 -snapshot default -no-snapshot-save &
+LIBGL_DEBUG=verbose ./qemu/linux-x86_64/qemu-system-x86_64 -avd Pixel2 -snapshot default -no-snapshot-save &
 EMULATOR_PID=$!
 
 adb wait-for-device
@@ -45,8 +45,8 @@ save
 adb emu kill
 
 # Doesn't work: triggers cold boot
-# qemu-img convert -O qcow2 -c /root/.android/avd/x86.avd/userdata-qemu.img /root/.android/avd/x86.avd/userdata-qemu.img_qcow2
-# mv /root/.android/avd/x86.avd/userdata-qemu.img_qcow2 /root/.android/avd/x86.avd/userdata-qemu.img
+# qemu-img convert -O qcow2 -c /root/.android/avd/Pixel2.avd/userdata-qemu.img /root/.android/avd/Pixel2.avd/userdata-qemu.img_qcow2
+# mv /root/.android/avd/Pixel2.avd/userdata-qemu.img_qcow2 /root/.android/avd/Pixel2.avd/userdata-qemu.img
 
 # Moving adb binary away so that stopping adb server with delay will release the emulator and will make it available for external connections
 mv /opt/android-sdk-linux/platform-tools/adb /opt/android-sdk-linux/platform-tools/_adb
