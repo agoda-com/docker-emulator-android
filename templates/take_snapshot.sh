@@ -7,7 +7,7 @@ snapshot_image_name=$2
 
 docker rm -f emulator || true
 
-docker run -d -t --name emulator --rm --privileged -v /dev/kvm:/dev/kvm -e ANDROID_ARCH="x86_64" $image_name bash
+docker run -d -t --name emulator --rm --privileged -v /dev/kvm:/dev/kvm -e ANDROID_ARCH="x86" $image_name bash
 
 docker cp snapshot.sh emulator:/snapshot.sh
 docker cp snapshot.expect emulator:/snapshot.expect
