@@ -5,7 +5,7 @@ MAINTAINER Anton Malinskiy "anton@malinskiy.com"
 # Set up insecure default key
 COPY adbkey adbkey.pub adb_usb.ini /root/.android/
 
-ENV LINK_ANDROID_SDK=https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip \
+ENV LINK_ANDROID_SDK=https://dl.google.com/android/repository/commandlinetools-linux-6514223_latest.zip \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8 \
@@ -32,8 +32,8 @@ RUN dpkg --add-architecture i386 && \
     unzip -q /tmp/android-sdk-linux.zip -d /opt/android-sdk-linux/ && \
     rm /tmp/android-sdk-linux.zip && \
     # Customized steps per specific platform
-    yes | sdkmanager --no_https --licenses && \
-    yes | sdkmanager emulator tools platform-tools "platforms;{{ platform }}" "system-images;{{ platform }};google_apis;x86" --verbose | uniq && \
+    yes | sdkmanager --no_https --licenses --sdk_root=${ANDROID_HOME} && \
+    yes | sdkmanager --sdk_root=${ANDROID_HOME} emulator tools platform-tools "platforms;{{ platform }}" "system-images;{{ platform }};google_apis;x86" --verbose | uniq && \
     echo no | avdmanager create avd -n "Pixel2" --package "system-images;{{ platform }};google_apis;x86" --tag google_apis && \
     # Unfilter devices (now local because CI downloads from github are unstable)
     # curl -o /root/.android/adb_usb.ini https://raw.githubusercontent.com/apkudo/adbusbini/master/adb_usb.ini && \
