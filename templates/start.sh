@@ -47,6 +47,11 @@ FLUXBOX_PID=$!
 sleep 2 && x11vnc -display :1 -nopw -forever &
 VNC_PID=$!
 
+# run Vnc client
+ENV_LOCAL_PORT=5900
+ENV_TARGET_PORT=6080
+nohup ./noVNC/utils/launch.sh --vnc localhost:${ENV_LOCAL_PORT} --listen ${ENV_TARGET_PORT} &
+
 # Set up and run emulator
 # qemu references bios by relative path
 cd /opt/android-sdk-linux/emulator

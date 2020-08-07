@@ -1,4 +1,4 @@
-OWNER=agoda
+OWNER=fahrudina
 IMAGE_NAME=docker-emulator-{{ platform }}
 VCS_REF=`git rev-parse --short HEAD`
 IMAGE_VERSION ?= 1.0.0

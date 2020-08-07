@@ -1,5 +1,5 @@
 SHELL := /usr/bin/env bash
-VERSIONS ?= android-16 android-17 android-18 android-19 android-21 android-22 android-23 android-24 android-25 android-26 android-27 android-28
+VERSIONS ?= android-21 android-22 android-23 android-24 android-25 android-26 android-27 android-28
 
 generate:
 	for version in $(VERSIONS); do \
