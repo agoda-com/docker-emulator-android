@@ -5,7 +5,7 @@ MAINTAINER Anton Malinskiy "anton@malinskiy.com"
 # Set up insecure default key
 COPY adbkey adbkey.pub adb_usb.ini /root/.android/
 
-ENV LINK_ANDROID_SDK=https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip \
+ENV LINK_ANDROID_SDK=https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8 \
