@@ -30,8 +30,6 @@ RUN curl -L $LINK_ANDROID_SDK > /tmp/android-sdk-linux.zip && \
     yes | sdkmanager --no_https --licenses --sdk_root=${ANDROID_HOME} && \
     yes | sdkmanager --sdk_root=${ANDROID_HOME} tools platform-tools "platforms;{{ platform }}" "system-images;{{ platform }};google_apis;x86" --verbose | uniq && \
     echo no | avdmanager create avd -n "x86" --package "system-images;{{ platform }};google_apis;x86" --tag google_apis && \
-    # Unfilter devices (now local because CI downloads from github are unstable)
-    # curl -o /root/.android/adb_usb.ini https://raw.githubusercontent.com/apkudo/adbusbini/master/adb_usb.ini
     # Clean up
     DEBIAN_FRONTEND=noninteractive apt-get purge -yq unzip openjdk-8-jdk && \
     apt-get -yq autoremove && \
@@ -44,11 +42,7 @@ RUN qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platfor
     mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img && \
     qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 && \
     mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img && \
-    qemu-img resize -f raw /root/.android/avd/x86.avd/userdata.img 2G && \
-    e2fsck -fy /root/.android/avd/x86.avd/userdata.img && \
-    resize2fs /root/.android/avd/x86.avd/userdata.img && \
-    qemu-img convert -O qcow2 -c /root/.android/avd/x86.avd/userdata.img /root/.android/avd/x86.avd/userdata.qcow2 && \
-    mv /root/.android/avd/x86.avd/userdata.qcow2 /root/.android/avd/x86.avd/userdata.img && \
+    qemu-img resize -f raw /root/.android/avd/x86.avd/userdata.img 2048M && \
     (qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 && \
     mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.img || true)
 
