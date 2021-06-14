@@ -18,7 +18,7 @@ RUN dpkg --add-architecture i386 && \
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic-security main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -yq software-properties-common libstdc++6:i386 zlib1g:i386 libncurses5:i386 \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq software-properties-common libc6:i386 libgcc1:i386 libstdc++6:i386 zlib1g:i386 libtinfo5:i386 libncurses5:i386 \
                         locales ca-certificates apt-transport-https curl unzip redir iproute2 \
                         openjdk-8-jdk xvfb x11vnc fluxbox nano libpulse0 telnet expect \
                         --no-install-recommends && \
