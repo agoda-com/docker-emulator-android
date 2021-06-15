@@ -5,8 +5,8 @@ ARG ANDROID_SDK_TOOLS='7302050'
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8 \
-    ANDROID_SDK_ROOT=/opt/android-sdk-linux \
-    PATH="$PATH:/opt/android-sdk-linux/cmdline-tools/bin:/opt/android-sdk-linux/platform-tools:/opt/android-sdk-linux/emulator"
+    ANDROID_SDK_ROOT=/opt \
+    PATH="$PATH:/opt/cmdline-tools/bin:/opt/platform-tools:/opt/emulator"
 
 RUN dpkg --add-architecture i386 \
     && echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic main restricted universe multiverse" > /etc/apt/sources.list \
@@ -50,7 +50,7 @@ COPY adbkey adbkey.pub adb_usb.ini /root/.android/
 
 # Install Android SDK
 RUN curl -L https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip > /tmp/android-sdk-linux.zip \
-    && unzip -q /tmp/android-sdk-linux.zip -d /opt/android-sdk-linux/ \
+    && unzip -q /tmp/android-sdk-linux.zip -d ${ANDROID_SDK_ROOT}/ \
     && rm /tmp/android-sdk-linux.zip \
     \
     # Customized steps per specific platform
@@ -68,16 +68,16 @@ RUN curl -L https://dl.google.com/android/repository/commandlinetools-linux-${AN
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Convert large partitions to qcow2 to save space
-RUN qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.qcow2 \
-    && mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img \
+RUN qemu-img convert -O qcow2 -c ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/system.img ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/system.qcow2 \
+    && mv ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/system.qcow2 ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/system.img \
     \
-    && qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 \
-    && mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img \
+    && qemu-img convert -O qcow2 -c ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/userdata.img ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 \
+    && mv ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/userdata.img \
     \
     && qemu-img resize -f raw /root/.android/avd/x86.avd/userdata.img 2048M \
     \
-    && (qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 \
-    && mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.img || true)
+    && (qemu-img convert -O qcow2 -c ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/vendor.img ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 \
+    && mv ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/vendor.img || true)
 
 COPY config.ini /root/.android/avd/x86.avd/config.ini
 
