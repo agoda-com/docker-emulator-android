@@ -6,7 +6,7 @@ ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en \
     LC_ALL=en_US.UTF-8 \
     ANDROID_SDK_ROOT=/opt \
-    PATH="$PATH:/opt/cmdline-tools/bin:/opt/platform-tools:/opt/emulator"
+    PATH="$PATH:/opt/cmdline-tools/tools/bin:/opt/platform-tools:/opt/emulator"
 
 RUN dpkg --add-architecture i386 \
     && echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic main restricted universe multiverse" > /etc/apt/sources.list \
@@ -50,8 +50,9 @@ COPY adbkey adbkey.pub adb_usb.ini /root/.android/
 
 # Install Android SDK
 RUN curl -L https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip > /tmp/android-sdk-linux.zip \
-    && unzip -q /tmp/android-sdk-linux.zip -d ${ANDROID_SDK_ROOT}/ \
+    && unzip -q /tmp/android-sdk-linux.zip -d ${ANDROID_SDK_ROOT}/cmdline-tools/ \
     && rm /tmp/android-sdk-linux.zip \
+    && mv ${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/tools \
     \
     # Customized steps per specific platform
     && yes | sdkmanager --no_https --licenses --sdk_root=${ANDROID_SDK_ROOT} \
