@@ -53,11 +53,10 @@ RUN curl -L https://dl.google.com/android/repository/commandlinetools-linux-${AN
     && unzip -q /tmp/android-sdk-linux.zip -d ${ANDROID_SDK_ROOT}/cmdline-tools/ \
     && rm /tmp/android-sdk-linux.zip \
     && mv ${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/tools \
-    && rm -Rf ${ANDROID_SDK_ROOT}/emulator \
     \
     # Customized steps per specific platform
     && yes | sdkmanager --no_https --licenses \
-    && sdkmanager emulator platform-tools --verbose \
+    && sdkmanager platform-tools --verbose \
         "platforms;{{ platform }}" \
         "system-images;{{ platform }};google_apis;x86" | uniq \
     && echo no | avdmanager create avd -n "x86" --package "system-images;{{ platform }};google_apis;x86" --tag google_apis \
