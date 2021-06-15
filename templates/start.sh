@@ -39,7 +39,7 @@ function clean_up {
 
 trap clean_up SIGHUP SIGINT SIGTERM
 export DISPLAY=:1
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/android-sdk-linux/emulator/lib64/qt/lib:/opt/android-sdk-linux/emulator/lib64/libstdc++:/opt/android-sdk-linux/emulator/lib64:/opt/android-sdk-linux/emulator/lib64/gles_swiftshader
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/emulator/lib64/qt/lib:/opt/emulator/lib64/libstdc++:/opt/emulator/lib64:/opt/emulator/lib64/gles_swiftshader
 Xvfb :1 +extension GLX +extension RANDR +extension RENDER +extension XFIXES -screen 0 1024x768x24 &
 XVFB_PID=$!
 sleep 1 && fluxbox -display ":1.0" &
@@ -49,7 +49,7 @@ VNC_PID=$!
 
 # Set up and run emulator
 # qemu references bios by relative path
-cd /opt/android-sdk-linux/emulator
+cd /opt/emulator
 
 CONFIG="/root/.android/avd/x86.avd/config.ini"
 CONFIGTMP=${CONFIG}.tmp
