@@ -55,8 +55,8 @@ RUN curl -L https://dl.google.com/android/repository/commandlinetools-linux-${AN
     && mv ${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/tools \
     \
     # Customized steps per specific platform
-    && yes | sdkmanager --no_https --licenses --sdk_root=${ANDROID_SDK_ROOT} \
-    && sdkmanager --sdk_root=${ANDROID_SDK_ROOT} platform-tools --verbose \
+    && yes | sdkmanager --no_https --licenses \
+    && sdkmanager platform-tools --verbose \
         "platforms;{{ platform }}" \
         "system-images;{{ platform }};google_apis;x86" | uniq \
     && echo no | avdmanager create avd -n "x86" --package "system-images;{{ platform }};google_apis;x86" --tag google_apis \
