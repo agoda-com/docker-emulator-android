@@ -2,11 +2,11 @@ FROM ubuntu:18.04
 
 ARG ANDROID_SDK_TOOLS='7302050'
 
-ENV LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:en \
-    LC_ALL=en_US.UTF-8 \
-    ANDROID_SDK_ROOT=/opt \
-    PATH="$PATH:/opt/cmdline-tools/tools/bin:/opt/platform-tools:/opt/emulator"
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+ENV ANDROID_SDK_ROOT=/opt
+ENV PATH="$PATH:/opt/cmdline-tools/tools/bin:/opt/platform-tools:/opt/emulator"
 
 RUN dpkg --add-architecture i386 \
     && echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic main restricted universe multiverse" > /etc/apt/sources.list \
