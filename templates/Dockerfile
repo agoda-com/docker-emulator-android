@@ -35,17 +35,16 @@ RUN dpkg --add-architecture i386 && \
     # curl -o /root/.android/adb_usb.ini https://raw.githubusercontent.com/apkudo/adbusbini/master/adb_usb.ini && \
     DEBIAN_FRONTEND=noninteractive apt-get purge -yq unzip openjdk-8-jdk && \
     # Convert large partitions to qcow2 to save space
-    qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.qcow2 && \
-    mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img && \
-    qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 && \
-    mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img && \
-    qemu-img resize /root/.android/avd/x86.avd/userdata.img 2G && \
-    e2fsck -fy /root/.android/avd/x86.avd/userdata.img && \
-    resize2fs /root/.android/avd/x86.avd/userdata.img && \
-    qemu-img convert -O qcow2 -c /root/.android/avd/x86.avd/userdata.img /root/.android/avd/x86.avd/userdata.qcow2 && \
-    mv /root/.android/avd/x86.avd/userdata.qcow2 /root/.android/avd/x86.avd/userdata.img && \
-    (qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 && \
-    mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.img || true) && \
+    qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/system.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/system.qcow2 \
+    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/system.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/system.img \
+    \
+    && qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/userdata.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 \
+    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/userdata.img \
+    \
+    && qemu-img resize -f raw /root/.android/avd/x86.avd/userdata.img 2048M \
+    \
+    && (qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 \
+    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.img || true)
     # Clean up
     apt-get -yq autoremove && \
     apt-get clean && \
