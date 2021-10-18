@@ -4,6 +4,7 @@ VCS_REF=`git rev-parse --short HEAD`
 IMAGE_VERSION ?= 1.0.0
 PROXY ?=
 QNAME=$(PROXY)$(OWNER)/$(IMAGE_NAME)
+ADDITIONAL_BUILD_OPTIONS ?=
 
 GIT_TAG=$(QNAME):$(VCS_REF)
 BUILD_TAG=$(QNAME):$(IMAGE_VERSION)
@@ -21,6 +22,7 @@ build:
 	docker build \
 		--build-arg VCS_REF=$(VCS_REF) \
 		--build-arg IMAGE_VERSION=$(IMAGE_VERSION) \
+		$(ADDITIONAL_BUILD_OPTIONS) \
 		-t $(LATEST_TAG) $(ROOT_DIR)
 
 snapshot:
