@@ -32,6 +32,7 @@ RUN dpkg --add-architecture i386 \
             libgl1 \
             libnss3 \
             libpulse0 \
+            libvulkan-dev \
             libxcomposite1 \
             libxcursor1 \
             libxi6 \
