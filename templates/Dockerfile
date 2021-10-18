@@ -44,9 +44,9 @@ RUN dpkg --add-architecture i386 && \
     && qemu-img resize -f raw /root/.android/avd/x86.avd/userdata.img 2048M \
     \
     && (qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 \
-    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.img || true)
+    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.img || true) \
     # Clean up
-    apt-get -yq autoremove && \
+    && apt-get -yq autoremove && \
     apt-get clean && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
