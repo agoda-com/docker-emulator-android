@@ -53,22 +53,22 @@ RUN dpkg --add-architecture i386 \
     rm /tmp/android-sdk-linux.zip && \
     # Customized steps per specific platform
     yes | sdkmanager --no_https --licenses && \
-    yes | sdkmanager emulator tools platform-tools "platforms;{{ platform }}" "system-images;{{ platform }};google_apis;x86" --verbose | uniq && \
-    echo no | avdmanager create avd -n "x86" --package "system-images;{{ platform }};google_apis;x86" --tag google_apis && \
+    yes | sdkmanager emulator tools platform-tools "platforms;{{ platform }}" "system-images;{{ platform }};google_apis;{{ abi }}" --verbose | uniq && \
+    echo no | avdmanager create avd -n "x86" --package "system-images;{{ platform }};google_apis;{{ abi }}" --tag google_apis && \
     # Unfilter devices (now local because CI downloads from github are unstable)
     # curl -o /root/.android/adb_usb.ini https://raw.githubusercontent.com/apkudo/adbusbini/master/adb_usb.ini && \
     DEBIAN_FRONTEND=noninteractive apt-get purge -yq unzip openjdk-8-jdk && \
     # Convert large partitions to qcow2 to save space
-    qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/system.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/system.qcow2 \
-    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/system.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/system.img \
+    qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/system.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/system.qcow2 \
+    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/system.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/system.img \
     \
-    && qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/userdata.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 \
-    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/userdata.img \
+    && qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/userdata.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/userdata.qcow2 \
+    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/userdata.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/userdata.img \
     \
     && qemu-img resize -f raw /root/.android/avd/x86.avd/userdata.img 2048M \
     \
-    && (qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 \
-    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86/vendor.img || true) \
+    && (qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/vendor.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/vendor.qcow2 \
+    && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/vendor.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/{{ abi }}/vendor.img || true) \
     # Clean up
     && apt-get -yq autoremove && \
     apt-get clean && \
