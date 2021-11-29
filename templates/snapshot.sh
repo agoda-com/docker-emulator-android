@@ -16,11 +16,11 @@ function clean_up {
 echo "Starting emulator"
 trap clean_up SIGHUP SIGINT SIGTERM
 export DISPLAY=:1
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/android-sdk-linux/emulator/lib64/qt/lib:/opt/android-sdk-linux/emulator/lib64/libstdc++:/opt/android-sdk-linux/emulator/lib64:/opt/android-sdk-linux/emulator/lib64/gles_swiftshader
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/emulator/lib64/qt/lib:/opt/emulator/lib64/libstdc++:/opt/emulator/lib64:/opt/emulator/lib64/gles_swiftshader
 Xvfb :1 +extension GLX +extension RANDR +extension RENDER +extension XFIXES -screen 0 1024x768x24 &
 XVFB_PID=$!
 
-cd /opt/android-sdk-linux/emulator
+cd /opt/emulator
 LIBGL_DEBUG=verbose ./qemu/linux-x86_64/qemu-system-x86_64 -avd x86 -snapshot default -no-snapshot-save &
 EMULATOR_PID=$!
 
@@ -49,7 +49,7 @@ adb emu kill
 # mv /root/.android/avd/x86.avd/userdata-qemu.img_qcow2 /root/.android/avd/x86.avd/userdata-qemu.img
 
 # Moving adb binary away so that stopping adb server with delay will release the emulator and will make it available for external connections
-mv /opt/android-sdk-linux/platform-tools/adb /opt/android-sdk-linux/platform-tools/_adb
+mv /opt/platform-tools/adb /opt/platform-tools/_adb
 
 echo "Great Scott!"
 clean_up
