@@ -75,7 +75,7 @@ RUN qemu-img convert -O qcow2 -c ${ANDROID_SDK_ROOT}/system-images/{{ platform }
     && qemu-img convert -O qcow2 -c ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/userdata.img ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 \
     && mv ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/userdata.img \
     \
-    && qemu-img resize -f raw /root/.android/avd/x86.avd/userdata.img 2048M \
+    && qemu-img resize -f raw /root/.android/avd/x86.avd/userdata.img 4096M \
     \
     && (qemu-img convert -O qcow2 -c ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/vendor.img ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 \
     && mv ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 ${ANDROID_SDK_ROOT}/system-images/{{ platform }}/google_apis/x86/vendor.img || true)
