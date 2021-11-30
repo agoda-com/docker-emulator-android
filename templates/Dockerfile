@@ -1,16 +1,11 @@
 FROM ubuntu:18.04
 
-MAINTAINER Anton Malinskiy "anton@malinskiy.com"
-
-# Set up insecure default key
-COPY adbkey adbkey.pub adb_usb.ini /root/.android/
-
-ENV LINK_ANDROID_SDK=https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip \
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:en \
-    LC_ALL=en_US.UTF-8 \
-    ANDROID_HOME=/opt/android-sdk-linux \
-    PATH="$PATH:/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/opt/android-sdk-linux/tools/bin:/opt/android-sdk-linux/emulator"
+ENV LINK_ANDROID_SDK=https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+ENV ANDROID_HOME=/opt/android-sdk-linux
+ENV PATH="$PATH:/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/opt/android-sdk-linux/tools/bin:/opt/android-sdk-linux/emulator"
 
 RUN dpkg --add-architecture i386 && \
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic main restricted universe multiverse" > /etc/apt/sources.list && \
@@ -44,17 +39,20 @@ RUN dpkg --add-architecture i386 && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Set up insecure default key
+COPY adbkey adbkey.pub adb_usb.ini /root/.android/
+
 # Convert large partitions to qcow2 to save space
-# RUN qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.qcow2 && \
-#     mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/system.img && \
-#     qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 && \
-#     mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/userdata.img && \
-#     qemu-img resize /root/.android/avd/Pixel2.avd/userdata.img 2G && \
-#     resize2fs /root/.android/avd/Pixel2.avd/userdata.img && \
-#     qemu-img convert -O qcow2 -c /root/.android/avd/Pixel2.avd/userdata.img /root/.android/avd/Pixel2.avd/userdata.qcow2 && \
-#     mv /root/.android/avd/Pixel2.avd/userdata.qcow2 /root/.android/avd/Pixel2.avd/userdata.img && \
-#     (qemu-img convert -O qcow2 -c /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.img /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 && \
-#     mv /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.qcow2 /opt/android-sdk-linux/system-images/{{ platform }}/google_apis/x86/vendor.img || true)
+RUN qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/system.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/system.qcow2 \
+     && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/system.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/system.img \
+     \
+     && qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/userdata.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/userdata.qcow2 \
+     && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/userdata.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/userdata.img \
+     \
+     && qemu-img resize -f raw /root/.android/avd/Pixel2.avd/userdata.img 4096M \
+     \
+     && (qemu-img convert -O qcow2 -c ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/vendor.img ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/vendor.qcow2 \
+     && mv ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/vendor.qcow2 ${ANDROID_HOME}/system-images/{{ platform }}/google_apis/x86_64/vendor.img || true)
 
 COPY config.ini /root/.android/avd/Pixel2.avd/config.ini
 
