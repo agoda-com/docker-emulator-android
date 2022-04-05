@@ -20,7 +20,6 @@ RUN dpkg --add-architecture i386 && \
         libpulse0 libtinfo5 libx11-6 libxcb1 libxdamage1 \
         libnss3 libxcomposite1 libxcursor1 libxi6 \
         libxext6 libxfixes3 zlib1g libgl1 pulseaudio socat \
-        qemu-system-x86_64 \
         --no-install-recommends && \
     locale-gen en_US.UTF-8 && \
     # Install Android SDK
