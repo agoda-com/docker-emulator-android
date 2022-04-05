@@ -7,13 +7,12 @@ ENV LC_ALL=en_US.UTF-8
 ENV ANDROID_HOME=/opt/android-sdk-linux
 ENV PATH="$PATH:/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/opt/android-sdk-linux/tools/bin:/opt/android-sdk-linux/emulator"
 
-RUN dpkg --add-architecture i386 && \
-    echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic main restricted universe multiverse" > /etc/apt/sources.list && \
+RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic main restricted universe multiverse" > /etc/apt/sources.list && \
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic-security main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "deb mirror://mirrors.ubuntu.com/mirrors.txt bionic-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -yq software-properties-common libstdc++6:i386 zlib1g:i386 libncurses5:i386 \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq software-properties-common libstdc++6 zlib1g libncurses5 \
         locales ca-certificates apt-transport-https curl unzip redir iproute2 \
         openjdk-8-jdk xvfb x11vnc fluxbox nano telnet expect \
         libc6 libdbus-1-3 libfontconfig1 libgcc1 \
